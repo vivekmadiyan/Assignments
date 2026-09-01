@@ -3,13 +3,21 @@ import { motion } from 'framer-motion';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { slideInUp, containerVariants } from '../hooks/useAnimationVariants';
 
+// Import images directly from assets
+import academicsImg from '../assets/images/academics.jpg';
+import artImg from '../assets/images/art.jpg';
+import languageImg from '../assets/images/language.jpg';
+import musicImg from '../assets/images/music.jpg';
+import cookingImg from '../assets/images/cooking.jpg';
+import yogaImg from '../assets/images/yoga.jpg';
+
 const categoryData = [
-    { id: 1, name: "Academics", img: "https://i.ibb.co/n1g9d5Q/academics.jpg" },
-    { id: 2, name: "Art", img: "https://i.ibb.co/6wN8Dkm/art.jpg" },
-    { id: 3, name: "Language", img: "https://i.ibb.co/qF7v7Xs/language.jpg" },
-    { id: 4, name: "Music", img: "https://i.ibb.co/y7LTvBy/music.jpg" },
-    { id: 5, name: "Cooking", img: "https://i.ibb.co/0BqNhFR/cooking.jpg" },
-    { id: 6, name: "Yoga", img: "https://i.ibb.co/Q6ZpPBM/yoga.jpg" },
+    { id: 1, name: "Academics", img: academicsImg },
+    { id: 2, name: "Art", img: artImg },
+    { id: 3, name: "Language", img: languageImg },
+    { id: 4, name: "Music", img: musicImg },
+    { id: 5, name: "Cooking", img: cookingImg },
+    { id: 6, name: "Yoga", img: yogaImg },
 ];
 
 const CategoryCard = ({ name, img, index }) => {
