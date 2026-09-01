@@ -3,12 +3,17 @@ import { motion } from 'framer-motion';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { slideInUp, containerVariants } from '../hooks/useAnimationVariants';
 
+// Import images directly from assets
+import blog1Img from '../assets/images/blog1.png';
+import blog2Img from '../assets/images/blog2.jpg';
+import blog3Img from '../assets/images/blog3.jpg';
+
 const blogData = [
     {
         id: 1,
         title: "Why Learning New Hobbies is Important",
         excerpt: "Discover the benefits of exploring new hobbies and how they can enrich your life.",
-        img: "https://i.ibb.co/sW9cNfX/blog1.png",
+        img: blog1Img,
         author: "Jane Doe",
         date: "March 15, 2024"
     },
@@ -16,7 +21,7 @@ const blogData = [
         id: 2,
         title: "Getting Started with Online Learning",
         excerpt: "Tips and tricks for beginners starting their online learning journey.",
-        img: "https://i.ibb.co/R7Y0G9j/blog2.jpg",
+        img: blog2Img,
         author: "John Smith",
         date: "March 10, 2024"
     },
@@ -24,7 +29,7 @@ const blogData = [
         id: 3,
         title: "Building a Community of Learners",
         excerpt: "How to connect with like-minded individuals and grow together.",
-        img: "https://i.ibb.co/DkfWMsT/blog3.jpg",
+        img: blog3Img,
         author: "Mike Johnson",
         date: "March 5, 2024"
     },
