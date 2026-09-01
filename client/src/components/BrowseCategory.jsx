@@ -1,76 +1,83 @@
-import React from 'react';
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { slideInUp, containerVariants } from '../hooks/useAnimationVariants';
 
-const BrowseCardData = [
-    {
-        id: 1,
-        title: "Language",
-        imgUrl: "https://i.ibb.co/JkyKQkH/language.jpg"
-    },
-    {
-        id: 2,
-        title: "Cooking",
-        imgUrl: "https://i.ibb.co/V9yh7TD/cooking.jpg"
-    },
-    {
-        id: 3,
-        title: "Music",
-        imgUrl: "https://i.ibb.co/C6LJrZN/music.jpg"
-    },
-    {
-        id: 4,
-        title: "Art & Craft",
-        imgUrl: "https://i.ibb.co/dpNyVc5/art.jpg"
-    },
-    {
-        id: 5,
-        title: "Yoga",
-        imgUrl: "https://i.ibb.co/JKQ6J5F/yoga.jpg"
-    },
-    {
-        id: 6,
-        title: "Academic",
-        imgUrl: "https://i.ibb.co/HDj5ghq/academics.jpg"
-    },
-    {
-        id: 7,
-        title: "Back to roots",
-        imgUrl: "https://i.ibb.co/VxkbzSs/roots.jpg"
-    },
-    {
-        id: 8,
-        title: "Funteresting",
-        imgUrl: "https://media.istockphoto.com/id/171292804/photo/painted-hands-sign-heart.jpg?s=612x612&w=0&k=20&c=m3Pqlj7lxsSMVp68corQ8sGQwtnbMX1HnD98Ja9Beu4="
-    },
+const categoryData = [
+    { id: 1, name: "Academics", img: "https://i.ibb.co/n1g9d5Q/academics.jpg" },
+    { id: 2, name: "Art", img: "https://i.ibb.co/6wN8Dkm/art.jpg" },
+    { id: 3, name: "Language", img: "https://i.ibb.co/qF7v7Xs/language.jpg" },
+    { id: 4, name: "Music", img: "https://i.ibb.co/y7LTvBy/music.jpg" },
+    { id: 5, name: "Cooking", img: "https://i.ibb.co/0BqNhFR/cooking.jpg" },
+    { id: 6, name: "Yoga", img: "https://i.ibb.co/Q6ZpPBM/yoga.jpg" },
 ];
 
-const BrowseCard = ({ title, imgUrl }) => {
+const CategoryCard = ({ name, img, index }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
     return (
-        <div className='h-48 pb-8 lg:pb-4 lg:w-56 w-full flex flex-col gap-2 border-b-2 hover:text-[#2530a0] hover:border-b-[#2530a0] hover:scale-105 cursor-pointer'>
-            <img className='h-full w-full rounded-2xl shadow-xl object-cover' src={imgUrl} alt={`${title}_category_image`} />
-            <h4 className='text-center font-semibold'>{title}</h4>
-        </div>
+        <motion.div
+            className='relative rounded-lg overflow-hidden h-48 cursor-pointer shadow-md'
+            variants={slideInUp}
+            custom={index}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            whileHover={{ scale: 1.05, boxShadow: '0 15px 35px rgba(37, 48, 160, 0.2)' }}
+            transition={{ duration: 0.3 }}
+        >
+            <motion.img
+                src={img}
+                alt={name}
+                className='w-full h-full object-cover'
+                animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
+                transition={{ duration: 0.4 }}
+            />
+            <motion.div
+                className='absolute inset-0 bg-black bg-opacity-0 flex items-center justify-center'
+                animate={isHovered ? { backgroundColor: 'rgba(37, 48, 160, 0.6)' } : { backgroundColor: 'rgba(0, 0, 0, 0)' }}
+                transition={{ duration: 0.3 }}
+            >
+                <motion.h3
+                    className='text-white font-bold text-xl'
+                    animate={isHovered ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    {name}
+                </motion.h3>
+            </motion.div>
+        </motion.div>
     );
 };
 
 const BrowseCategory = () => {
-    const { ref, inView } = useInView({ threshold: 0.1 });
+    const { ref, inView } = useScrollAnimation(0.2);
 
     return (
         <motion.div
             ref={ref}
-            initial={{ opacity: 0, y: -100 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -100 }}
-            transition={{ duration: 0.8 }}
-            className='my-16 lg:px-28 px-4 flex flex-col'
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            variants={containerVariants}
+            className='px-4 lg:px-28 py-12'
         >
-            <div>
-                <h1 className='text-3xl text-center lg:text-start text-[#2530a0] font-bold'>Browse by category</h1>
-            </div>
-            <div className='flex flex-col lg:px-1 px-16 lg:flex-row flex-wrap gap-24 mt-12'>
-                {BrowseCardData.map((browse) => (
-                    <BrowseCard key={browse.id} title={browse.title} imgUrl={browse.imgUrl} />
+            <motion.div
+                initial={{ opacity: 0, y: -30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
+                transition={{ duration: 0.6 }}
+                className='text-center mb-12'
+            >
+                <h1 className='text-3xl font-bold text-[#2530a0] mb-3'>Browse by Category</h1>
+                <p className='text-[#717696] text-md'>Discover hobbies across different categories</p>
+            </motion.div>
+
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                {categoryData.map((category, index) => (
+                    <CategoryCard
+                        key={category.id}
+                        name={category.name}
+                        img={category.img}
+                        index={index}
+                    />
                 ))}
             </div>
         </motion.div>

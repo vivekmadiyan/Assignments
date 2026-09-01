@@ -1,57 +1,62 @@
 import React from 'react';
-import { FaRegArrowAltCircleRight } from "react-icons/fa";
-import { IoIosArrowDropup } from "react-icons/io";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { motion } from 'framer-motion';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const Newsletter = () => {
-    const { ref, inView } = useInView({ threshold: 0.2 });
+    const { ref, inView } = useScrollAnimation(0.3);
 
     return (
         <motion.div
             ref={ref}
             initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ duration: 0.6 }}
-            className='my-24 lg:px-28 flex flex-col'
+            transition={{ duration: 0.8 }}
+            className='px-4 lg:px-28 py-12'
         >
             <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5 }}
-                className='p-16 lg:rounded-full bg-[#fb7356] w-[100%] lg:w-[100%] h-auto flex flex-col text-center items-center justify-center gap-6'
+                className='bg-gradient-to-r from-[#2530a0] to-[#1a1f7a] rounded-lg p-12 text-center text-white'
+                whileHover={{ scale: 1.02, boxShadow: '0 20px 50px rgba(37, 48, 160, 0.3)' }}
+                transition={{ duration: 0.3 }}
             >
-                <h2 className='text-3xl text-white font-bold'>
-                    Start learning new skills today and <br /> pursue your passion
-                </h2>
-                <p className='text-md text-white'>
-                    Join the community of global learners and start exploring today.
-                </p>
-                <div className='flex flex-col lg:flex-row items-center gap-6 lg:gap-2'>
-                    <input
-                        type={"text"}
+                <motion.h2
+                    className='text-3xl font-bold mb-4'
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                >
+                    Subscribe to Our Newsletter
+                </motion.h2>
+                <motion.p
+                    className='text-lg mb-8 text-blue-100'
+                    initial={{ opacity: 0 }}
+                    animate={inView ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                >
+                    Get the latest updates on new hobbies and exclusive offers delivered to your inbox.
+                </motion.p>
+                
+                <motion.div
+                    className='flex flex-col md:flex-row gap-4 max-w-md mx-auto'
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                >
+                    <motion.input
+                        type="email"
                         placeholder="Enter your email"
-                        className='text-sm rounded-full py-1 pl-6 bg-inherit pr-24 placeholder:text-start placeholder:text-white border border-white'
+                        className='flex-1 px-6 py-3 rounded-full text-black focus:outline-none focus:ring-2 focus:ring-blue-300'
+                        whileFocus={{ boxShadow: '0 0 20px rgba(255, 255, 255, 0.3)' }}
+                        transition={{ duration: 0.2 }}
                     />
-                    <button className='uppercase text-sm font-medium bg-white py-1 px-4 text-[#fb7356] rounded-full flex items-center gap-2'>
-                        Get Started <FaRegArrowAltCircleRight />
-                    </button>
-                </div>
-            </motion.div>
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className='relative'
-            >
-                <div className='absolute right-2'>
-                    <button
-                        className='text-6xl text-[#2530a0]'
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    <motion.button
+                        className='bg-red-500 text-white px-8 py-3 rounded-full font-bold whitespace-nowrap'
+                        whileHover={{ scale: 1.05, backgroundColor: '#dc2626', boxShadow: '0 10px 20px rgba(255, 0, 0, 0.3)' }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
                     >
-                        <IoIosArrowDropup />
-                    </button>
-                </div>
+                        Subscribe
+                    </motion.button>
+                </motion.div>
             </motion.div>
         </motion.div>
     );

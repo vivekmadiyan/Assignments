@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { scaleIn, containerVariants, hoverLift } from '../hooks/useAnimationVariants';
 
 const ExploreCardData = [
     {
@@ -29,41 +30,69 @@ const ExploreCardData = [
     }
 ];
 
-const ExploreCard = ({ imgUrl, title, description }) => {
+const ExploreCard = ({ imgUrl, title, description, index }) => {
     return (
-        <div className='flex flex-col items-center text-center flex-1 gap-2'>
-            <img className='h-20 w-20' src={imgUrl} alt={title} />
+        <motion.div 
+            className='flex flex-col items-center text-center flex-1 gap-2 p-6 rounded-lg transition-all duration-300 hover:bg-opacity-80'
+            variants={scaleIn}
+            custom={index}
+            whileHover="whileHover"
+            {...hoverLift}
+        >
+            <motion.img 
+                className='h-20 w-20 transition-transform duration-300' 
+                src={imgUrl} 
+                alt={title}
+                whileHover={{ scale: 1.15, rotate: 5 }}
+            />
             <h4 className='text-lg text-[#2530a0] font-semibold'>
                 {title}
             </h4>
             <p className='text-md px-4 text-[#717696]'>
                 {description}
             </p>
-        </div>
+        </motion.div>
     );
 };
 
 const Explore = () => {
-    const { ref, inView } = useInView({ threshold: 0.1 });
+    const { ref, inView } = useScrollAnimation(0.2);
 
     return (
         <motion.div
             ref={ref}
-            initial={{ opacity: 0, y: -100 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -100 }}
-            transition={{ duration: 0.8 }}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            variants={containerVariants}
             className='flex flex-col'
         >
-            <div className='px-4 flex flex-col gap-6 items-center justify-center'>
-                <img src='https://cdn.prod.website-files.com/647123ea2886adf856db6043/64712ba2d5227bcec7019c49_KL-arrow-1.svg' className='h-40 w-40' alt='down-arrow'/>
+            <motion.div 
+                className='px-4 flex flex-col gap-6 items-center justify-center'
+                initial={{ opacity: 0, y: -30 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
+                transition={{ duration: 0.8 }}
+            >
+                <motion.img 
+                    src='https://cdn.prod.website-files.com/647123ea2886adf856db6043/64712ba2d5227bcec7019c49_KL-arrow-1.svg' 
+                    className='h-40 w-40' 
+                    alt='down-arrow'
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                />
                 <h1 className='text-3xl font-bold font-sans text-[#2530a0] text-center'>
                     Explore. Enroll. Have Fun. Repeat - <br className='hidden lg:block' />
                     here hobby meet happiness
                 </h1>
-            </div>
+            </motion.div>
             <div className='flex flex-wrap items-center justify-between gap-12 mt-12 px-16 py-8'>
-                {ExploreCardData.map((exp) => (
-                    <ExploreCard key={exp.id} title={exp.title} description={exp.description} imgUrl={exp.imgUrl} />
+                {ExploreCardData.map((exp, index) => (
+                    <ExploreCard 
+                        key={exp.id} 
+                        title={exp.title} 
+                        description={exp.description} 
+                        imgUrl={exp.imgUrl}
+                        index={index}
+                    />
                 ))}
             </div>
         </motion.div>
