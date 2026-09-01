@@ -12,7 +12,7 @@ const CommunityCardData = [
     {
         id: 2,
         name: "Kalpana",
-        message: "The best thing about these classes is that they are live and interactive. They have classes which help us to learn specialties and famous activities from other countries as well.",
+        message: "The best thing about these classes is that they are live and interactive. They have classes which help us to learn specialties and famous activities from other countries as well.[...]",
         imgUrl: "https://i.ibb.co/mtwmgHT/person2.jpg"
     },
     {

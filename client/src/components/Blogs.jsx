@@ -1,118 +1,91 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { slideInUp, containerVariants } from '../hooks/useAnimationVariants';
+import { IoChatbubbleOutline } from "react-icons/io5";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
-// Import images directly from assets
-import blog1Img from '../assets/images/blog1.png';
-import blog2Img from '../assets/images/blog2.jpg';
-import blog3Img from '../assets/images/blog3.jpg';
-
-const blogData = [
+const BlogCardData = [
     {
         id: 1,
-        title: "Why Learning New Hobbies is Important",
-        excerpt: "Discover the benefits of exploring new hobbies and how they can enrich your life.",
-        img: blog1Img,
-        author: "Jane Doe",
-        date: "March 15, 2024"
+        title: "Blog name - Lorem ipsum dolor sit amet, et varius et consectetur",
+        desc: "Lorem ipsum dolor sit amet, consectetur vinit varius adipiscing elit. Ullamcorper lectus turpis amet varius volutpat sed...",
+        imgUrl: "https://i.ibb.co/wM32W0G/blog1.png",
+        comNo: 0
     },
     {
         id: 2,
-        title: "Getting Started with Online Learning",
-        excerpt: "Tips and tricks for beginners starting their online learning journey.",
-        img: blog2Img,
-        author: "John Smith",
-        date: "March 10, 2024"
+        title: "Blog name - Lorem ipsum dolor sit amet, et varius et consectetur",
+        desc: "Lorem ipsum dolor sit amet, consectetur vinit varius adipiscing elit. Ullamcorper lectus turpis amet varius volutpat sed...",
+        imgUrl: "https://i.ibb.co/FY1hfN1/blog2.jpg",
+        comNo: 12
     },
     {
         id: 3,
-        title: "Building a Community of Learners",
-        excerpt: "How to connect with like-minded individuals and grow together.",
-        img: blog3Img,
-        author: "Mike Johnson",
-        date: "March 5, 2024"
+        title: "Blog name - Lorem ipsum dolor sit amet, et varius et consectetur",
+        desc: "Lorem ipsum dolor sit amet, consectetur vinit varius adipiscing elit. Ullamcorper lectus turpis amet varius volutpat sed...",
+        imgUrl: "https://i.ibb.co/VM2yyqf/blog3.jpg",
+        comNo: 6
     },
 ];
 
-const BlogCard = ({ title, excerpt, img, author, date, index }) => {
+const BlogCard = ({ title, desc, imgUrl, comNo, inView }) => {
     return (
         <motion.div
-            className='rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300'
-            variants={slideInUp}
-            custom={index}
-            whileHover={{ y: -8 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, y: -100 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -100 }}
+            transition={{ duration: 0.5 }}
+            className={`flex flex-col gap-6 text-center lg:text-start items-center lg:w-[30%] border border-[#d3deeb] rounded-md p-4`}
         >
-            <div className='overflow-hidden h-48'>
-                <motion.img
-                    src={img}
-                    alt={title}
-                    className='w-full h-full object-cover'
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.4 }}
-                />
-            </div>
-            <div className='p-6'>
-                <motion.h3
-                    className='text-lg font-bold text-[#2530a0] mb-2 line-clamp-2 hover:text-blue-700'
-                    whileHover={{ x: 5 }}
-                    transition={{ duration: 0.2 }}
-                >
+            <div className='w-full'>
+                <img className='h-40 w-full object-cover rounded-md' src={imgUrl} alt='discover_card' />
+                <h4 className='font-semibold text-lg mt-2'>
                     {title}
-                </motion.h3>
-                <p className='text-[#717696] text-sm mb-4 line-clamp-3'>
-                    {excerpt}
+                </h4>
+                <p className='text-[#666a8d] text-sm my-2 border-b pb-6'>
+                    {desc}
                 </p>
-                <div className='flex justify-between items-center text-xs text-[#51557d]'>
-                    <span>{author}</span>
-                    <span>{date}</span>
+                <div className='flex justify-between items-center'>
+                    <p className='text-sm text-[#323da6] font-semibold'>
+                        Publisher name
+                    </p>
+                    <p className='flex items-center gap-2'>
+                        <IoChatbubbleOutline /> {comNo}
+                    </p>
                 </div>
-                <motion.button
-                    className='mt-4 w-full bg-[#2530a0] text-white py-2 rounded-lg font-medium text-sm'
-                    whileHover={{ scale: 1.02, boxShadow: '0 5px 15px rgba(37, 48, 160, 0.3)' }}
-                    whileTap={{ scale: 0.98 }}
-                >
-                    Read More
-                </motion.button>
             </div>
         </motion.div>
     );
 };
 
 const Blogs = () => {
-    const { ref, inView } = useScrollAnimation(0.2);
+    const { ref, inView } = useInView({ threshold: 0.2 });
 
     return (
         <motion.div
             ref={ref}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            variants={containerVariants}
-            className='px-4 lg:px-28 py-12 bg-[#f9faff]'
+            initial={{ opacity: 0, y: -100 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -100 }}
+            transition={{ duration: 0.6 }}
+            className='my-8 lg:px-28 px-4 flex flex-col'
         >
-            <motion.div
-                initial={{ opacity: 0, y: -30 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
-                transition={{ duration: 0.6 }}
-                className='text-center mb-12'
-            >
-                <h1 className='text-3xl font-bold text-[#2530a0] mb-3'>Latest Blogs</h1>
-                <p className='text-[#717696] text-md'>Stay updated with our latest insights and articles</p>
-            </motion.div>
-
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-                {blogData.map((blog, index) => (
-                    <BlogCard
-                        key={blog.id}
-                        title={blog.title}
-                        excerpt={blog.excerpt}
-                        img={blog.img}
-                        author={blog.author}
-                        date={blog.date}
-                        index={index}
-                    />
-                ))}
+            <div className='flex flex-col lg:flex-row justify-between'>
+                <div className='flex mx-auto lg:mx-0 items-baseline gap-8'>
+                    <h1 className='text-3xl text-center lg:text-start text-[#2530a0] font-bold'>Our Blogs</h1>
+                    <p className='uppercase text-center lg:text-start text-sm text-red-500 underline'>Show all</p>
+                </div>
+            </div>
+            <div className='mt-12 flex flex-col lg:flex-row gap-8'>
+                {
+                    BlogCardData.map((blog) => (
+                        <BlogCard
+                            key={blog.id}
+                            title={blog.title}
+                            desc={blog.desc}
+                            imgUrl={blog.imgUrl}
+                            comNo={blog.comNo}
+                            inView={inView}
+                        />
+                    ))
+                }
             </div>
         </motion.div>
     );
